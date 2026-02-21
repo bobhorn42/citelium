@@ -7,17 +7,17 @@ let periode_courante = 269680;
 let compteur = 0;
 const url = "https://complexe-citelium.fr/module-inscriptions/reserver/";
 
-// --- CONFIG Email via variables d’environnement ---
-const EMAIL_HOST = process.env.EMAIL_HOST;
-const EMAIL_PORT = process.env.EMAIL_PORT || 587;
+// --- CONFIG Email via variables d’environnement (OVH SSL) ---
+const EMAIL_HOST = process.env.EMAIL_HOST; // ssl0.ovh.net
+const EMAIL_PORT = process.env.EMAIL_PORT || 465;
 const EMAIL_USER = process.env.EMAIL_USER;
 const EMAIL_PASS = process.env.EMAIL_PASS;
 const EMAIL_TO = process.env.EMAIL_TO;
 
 const transporter = nodemailer.createTransport({
   host: EMAIL_HOST,
-  port: EMAIL_PORT,
-  secure: false,
+  port: Number(EMAIL_PORT),
+  secure: true, // ✅ SSL obligatoire sur le port 465
   auth: {
     user: EMAIL_USER,
     pass: EMAIL_PASS
@@ -63,7 +63,6 @@ const interval = setInterval(async () => {
     );
   }
 
-  // Fin de boucle
   if (compteur >= limite_boucle) {
     clearInterval(interval);
     await envoyerEmail(

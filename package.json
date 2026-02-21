@@ -1,16 +1,13 @@
 {
-  "name": "surveillance-periode",
+  "name": "render-cron-monitor",
   "version": "1.0.0",
-  "description": "Surveille le changement de periode",
-  "main": "index.js",
   "type": "module",
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "dependencies": {
-    "nodemailer": "^6.9.8"
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.4"
   }
 }

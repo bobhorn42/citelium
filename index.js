@@ -83,7 +83,9 @@ app.get("/run", async (req, res) => {
       }
     }
   } catch (err) {
-    await notifier(`Erreur : ${err.message}`);
+    //await notifier(`Erreur : ${err.message}`);
+    const msg = encodeURIComponent(`Erreur : ${err.message}`);
+    await fetch(`${PHP_URL}?action=setlog&message=${msg}&token=${API_TOKEN}`);
   }
 
   // Auto-appel dans 1 min (sans boucle)
@@ -97,4 +99,5 @@ app.get("/run", async (req, res) => {
 });
 
 app.listen(port, () => console.log("Service actif"));
+
 

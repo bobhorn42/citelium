@@ -74,12 +74,15 @@ app.get("/run", async (req, res) => {
     if (match) {
       const nouvelle_periode = parseInt(match[1], 10);
 
-      if (nouvelle_periode !== periode_courante) {
+      if (nouvelle_periode === 0) {
+        const now = new Date().toISOString();
+        // Test via PHP
+        await setLog(`test de changement - ${now}`);
+      } else if (nouvelle_periode !== periode_courante) {
         // 3) Mise à jour via PHP
         await fetch(`${PHP_URL}?action=set&valeur=${nouvelle_periode}&token=${API_TOKEN}`);
-
         // 4) Notifications
-        await notifier(`De nouveaux créneaux sont disponibles (code : ${nouvelle_periode}) !!!`);
+        await notifier(`CHANGEMENT : ${nouvelle_periode}`);
       }
     }
   } catch (err) {
@@ -99,5 +102,6 @@ app.get("/run", async (req, res) => {
 });
 
 app.listen(port, () => console.log("Service actif"));
+
 
 
